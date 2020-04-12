@@ -23,8 +23,8 @@ import java.util.Map;
 
 public abstract class TpchTable<E extends TpchEntity>
 {
-  public static final TpchTable<Customer>
-      CUSTOMER = new TpchTable<Customer>("customer", CustomerColumn.values())
+    public static final TpchTable<Customer>
+            CUSTOMER = new TpchTable<Customer>("customer", CustomerColumn.values())
     {
         @Override
         public Iterable<Customer> createGenerator(double scaleFactor, int part, int partCount)
@@ -42,8 +42,8 @@ public abstract class TpchTable<E extends TpchEntity>
         }
     };
 
-  public static final TpchTable<LineItem>
-      LINE_ITEM = new TpchTable<LineItem>("lineitem", LineItemColumn.values())
+    public static final TpchTable<LineItem>
+            LINE_ITEM = new TpchTable<LineItem>("lineitem", LineItemColumn.values())
     {
         @Override
         public Iterable<LineItem> createGenerator(double scaleFactor, int part, int partCount)
@@ -61,8 +61,8 @@ public abstract class TpchTable<E extends TpchEntity>
         }
     };
 
-  public static final TpchTable<PartSupplier>
-      PART_SUPPLIER = new TpchTable<PartSupplier>("partsupp", PartSupplierColumn.values())
+    public static final TpchTable<PartSupplier>
+            PART_SUPPLIER = new TpchTable<PartSupplier>("partsupp", PartSupplierColumn.values())
     {
         @Override
         public Iterable<PartSupplier> createGenerator(double scaleFactor, int part, int partCount)
@@ -71,8 +71,8 @@ public abstract class TpchTable<E extends TpchEntity>
         }
     };
 
-  public static final TpchTable<Supplier>
-      SUPPLIER = new TpchTable<Supplier>("supplier", SupplierColumn.values())
+    public static final TpchTable<Supplier>
+            SUPPLIER = new TpchTable<Supplier>("supplier", SupplierColumn.values())
     {
         @Override
         public Iterable<Supplier> createGenerator(double scaleFactor, int part, int partCount)
@@ -107,25 +107,6 @@ public abstract class TpchTable<E extends TpchEntity>
 
     private static final List<TpchTable<?>> TABLES;
     private static final Map<String, TpchTable<?>> TABLES_BY_NAME;
-
-    static {
-      TABLES = ImmutableList
-          .of(CUSTOMER, ORDERS, LINE_ITEM, PART, PART_SUPPLIER, SUPPLIER, NATION, REGION);
-        TABLES_BY_NAME = Maps.uniqueIndex(TABLES, TpchTable::getTableName);
-    }
-
-    public static List<TpchTable<?>> getTables()
-    {
-        return TABLES;
-    }
-
-    public static TpchTable<?> getTable(String tableName)
-    {
-        TpchTable<?> table = TABLES_BY_NAME.get(tableName);
-        Preconditions.checkArgument(table != null, "Table %s not found", tableName);
-        return table;
-    }
-
     private final String tableName;
     private final List<TpchColumn<E>> columns;
     private final Map<String, TpchColumn<E>> columnsByName;
@@ -138,6 +119,18 @@ public abstract class TpchTable<E extends TpchEntity>
                 .putAll(Maps.uniqueIndex(this.columns, TpchColumn::getColumnName))
                 .putAll(Maps.uniqueIndex(this.columns, TpchColumn::getSimplifiedColumnName))
                 .build();
+    }
+
+    public static List<TpchTable<?>> getTables()
+    {
+        return TABLES;
+    }
+
+    public static TpchTable<?> getTable(String tableName)
+    {
+        TpchTable<?> table = TABLES_BY_NAME.get(tableName);
+        Preconditions.checkArgument(table != null, "Table %s not found", tableName);
+        return table;
     }
 
     public String getTableName()
@@ -158,4 +151,10 @@ public abstract class TpchTable<E extends TpchEntity>
     }
 
     public abstract Iterable<E> createGenerator(double scaleFactor, int part, int partCount);
+
+    static {
+        TABLES = ImmutableList
+                .of(CUSTOMER, ORDERS, LINE_ITEM, PART, PART_SUPPLIER, SUPPLIER, NATION, REGION);
+        TABLES_BY_NAME = Maps.uniqueIndex(TABLES, TpchTable::getTableName);
+    }
 }

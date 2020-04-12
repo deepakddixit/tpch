@@ -13,9 +13,6 @@
  */
 package io.prestosql.tpch;
 
-import static com.google.common.base.CharMatcher.whitespace;
-import static com.google.common.base.Preconditions.checkState;
-
 import com.google.common.base.Splitter;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
@@ -28,12 +25,15 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Stream;
 
+import static com.google.common.base.CharMatcher.whitespace;
+import static com.google.common.base.Preconditions.checkState;
+
 public final class DistributionLoader
 {
     private DistributionLoader() {}
 
-  public static <R extends Readable & Closeable> Map<String, Distribution> loadDistribution(
-      CharSource input)
+    public static <R extends Readable & Closeable> Map<String, Distribution> loadDistribution(
+            CharSource input)
             throws IOException
     {
         try (Stream<String> lines = input.lines()) {
@@ -60,8 +60,8 @@ public final class DistributionLoader
                 return new Distribution(name, weights);
             }
 
-          List<String> parts = ImmutableList
-              .copyOf(Splitter.on('|').trimResults().omitEmptyStrings().split(line));
+            List<String> parts = ImmutableList
+                    .copyOf(Splitter.on('|').trimResults().omitEmptyStrings().split(line));
             checkState(parts.size() == 2,
                     "Expected line to contain two parts, but it contains %d parts: %s",
                     parts.size(),

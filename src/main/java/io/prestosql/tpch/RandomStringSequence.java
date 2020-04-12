@@ -13,13 +13,13 @@
  */
 package io.prestosql.tpch;
 
-import static com.google.common.base.Preconditions.checkArgument;
-
 import com.google.common.base.Joiner;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+
+import static com.google.common.base.Preconditions.checkArgument;
 
 public class RandomStringSequence
         extends AbstractRandomInt

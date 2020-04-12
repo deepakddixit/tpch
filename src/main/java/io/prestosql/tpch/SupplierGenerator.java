@@ -13,33 +13,30 @@
  */
 package io.prestosql.tpch;
 
+import com.google.common.collect.AbstractIterator;
+
+import java.util.Iterator;
+
 import static com.google.common.base.Preconditions.checkArgument;
 import static io.prestosql.tpch.GenerateUtils.calculateRowCount;
 import static io.prestosql.tpch.GenerateUtils.calculateStartIndex;
 import static java.util.Locale.ENGLISH;
 import static java.util.Objects.requireNonNull;
 
-import com.google.common.collect.AbstractIterator;
-
-import java.util.Iterator;
-
 public class SupplierGenerator
         implements Iterable<Supplier>
 {
     public static final int SCALE_BASE = 10_000;
-
-    private static final int ACCOUNT_BALANCE_MIN = -99999;
-    private static final int ACCOUNT_BALANCE_MAX = 999999;
-    private static final int ADDRESS_AVERAGE_LENGTH = 25;
-    private static final int COMMENT_AVERAGE_LENGTH = 63;
-
     public static final String BBB_BASE_TEXT = "Customer ";
     public static final String BBB_COMPLAINT_TEXT = "Complaints";
     public static final String BBB_RECOMMEND_TEXT = "Recommends";
     public static final int BBB_COMMENT_LENGTH = BBB_BASE_TEXT.length() + BBB_COMPLAINT_TEXT.length();
     public static final int BBB_COMMENTS_PER_SCALE_BASE = 10;
     public static final int BBB_COMPLAINT_PERCENT = 50;
-
+    private static final int ACCOUNT_BALANCE_MIN = -99999;
+    private static final int ACCOUNT_BALANCE_MAX = 999999;
+    private static final int ADDRESS_AVERAGE_LENGTH = 25;
+    private static final int COMMENT_AVERAGE_LENGTH = 63;
     private final double scaleFactor;
     private final int part;
     private final int partCount;
@@ -79,16 +76,16 @@ public class SupplierGenerator
     private static class SupplierGeneratorIterator
             extends AbstractIterator<Supplier>
     {
-      private final RandomAlphaNumeric
-          addressRandom = new RandomAlphaNumeric(706178559, ADDRESS_AVERAGE_LENGTH);
+        private final RandomAlphaNumeric
+                addressRandom = new RandomAlphaNumeric(706178559, ADDRESS_AVERAGE_LENGTH);
         private final RandomBoundedInt nationKeyRandom;
         private final RandomPhoneNumber phoneRandom = new RandomPhoneNumber(884434366);
-      private final RandomBoundedInt
-          accountBalanceRandom =
-          new RandomBoundedInt(962338209, ACCOUNT_BALANCE_MIN, ACCOUNT_BALANCE_MAX);
+        private final RandomBoundedInt
+                accountBalanceRandom =
+                new RandomBoundedInt(962338209, ACCOUNT_BALANCE_MIN, ACCOUNT_BALANCE_MAX);
         private final RandomText commentRandom;
-      private final RandomBoundedInt
-          bbbCommentRandom = new RandomBoundedInt(202794285, 1, SCALE_BASE);
+        private final RandomBoundedInt
+                bbbCommentRandom = new RandomBoundedInt(202794285, 1, SCALE_BASE);
         private final RandomInt bbbJunkRandom = new RandomInt(263032577, 1);
         private final RandomInt bbbOffsetRandom = new RandomInt(715851524, 1);
         private final RandomBoundedInt bbbTypeRandom = new RandomBoundedInt(753643799, 0, 100);

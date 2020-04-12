@@ -13,12 +13,6 @@
  */
 package io.prestosql.tpch;
 
-import static com.google.common.base.Preconditions.checkArgument;
-import static com.google.common.base.Preconditions.checkState;
-import static com.google.common.base.Suppliers.memoize;
-import static io.prestosql.tpch.DistributionLoader.loadDistribution;
-import static java.nio.charset.StandardCharsets.UTF_8;
-
 import com.google.common.io.Resources;
 
 import java.io.IOException;
@@ -27,27 +21,15 @@ import java.net.URL;
 import java.util.Map;
 import java.util.function.Supplier;
 
+import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.common.base.Preconditions.checkState;
+import static com.google.common.base.Suppliers.memoize;
+import static io.prestosql.tpch.DistributionLoader.loadDistribution;
+import static java.nio.charset.StandardCharsets.UTF_8;
+
 public class Distributions
 {
     private static final Supplier<Distributions> DEFAULT_DISTRIBUTIONS = memoize(Distributions::loadDefaults);
-
-    private static Distributions loadDefaults()
-    {
-        try {
-            URL resource = Resources.getResource(Distribution.class, "dists.dss");
-            checkState(resource != null, "Distribution file 'dists.dss' not found");
-            return new Distributions(loadDistribution(Resources.asCharSource(resource, UTF_8)));
-        }
-        catch (IOException e) {
-            throw new UncheckedIOException(e);
-        }
-    }
-
-    public static Distributions getDefaultDistributions()
-    {
-        return DEFAULT_DISTRIBUTIONS.get();
-    }
-
     private final Distribution grammars;
     private final Distribution nounPhrase;
     private final Distribution verbPhrase;
@@ -93,6 +75,30 @@ public class Distributions
         this.marketSegments = getDistribution(distributions, "msegmnt");
         this.nations = getDistribution(distributions, "nations");
         this.regions = getDistribution(distributions, "regions");
+    }
+
+    private static Distributions loadDefaults()
+    {
+        try {
+            URL resource = Resources.getResource(Distribution.class, "dists.dss");
+            checkState(resource != null, "Distribution file 'dists.dss' not found");
+            return new Distributions(loadDistribution(Resources.asCharSource(resource, UTF_8)));
+        }
+        catch (IOException e) {
+            throw new UncheckedIOException(e);
+        }
+    }
+
+    public static Distributions getDefaultDistributions()
+    {
+        return DEFAULT_DISTRIBUTIONS.get();
+    }
+
+    private static Distribution getDistribution(Map<String, Distribution> distributions, String name)
+    {
+        Distribution distribution = distributions.get(name);
+        checkArgument(distribution != null, "Distribution %s does not exist");
+        return distribution;
     }
 
     public Distribution getAdjectives()
@@ -198,12 +204,5 @@ public class Distributions
     public Distribution getVerbs()
     {
         return verbs;
-    }
-
-    private static Distribution getDistribution(Map<String, Distribution> distributions, String name)
-    {
-        Distribution distribution = distributions.get(name);
-        checkArgument(distribution != null, "Distribution %s does not exist");
-        return distribution;
     }
 }

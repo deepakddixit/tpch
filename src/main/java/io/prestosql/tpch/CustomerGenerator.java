@@ -13,15 +13,15 @@
  */
 package io.prestosql.tpch;
 
+import com.google.common.collect.AbstractIterator;
+
+import java.util.Iterator;
+
 import static com.google.common.base.Preconditions.checkArgument;
 import static io.prestosql.tpch.GenerateUtils.calculateRowCount;
 import static io.prestosql.tpch.GenerateUtils.calculateStartIndex;
 import static java.util.Locale.ENGLISH;
 import static java.util.Objects.requireNonNull;
-
-import com.google.common.collect.AbstractIterator;
-
-import java.util.Iterator;
 
 public class CustomerGenerator
         implements Iterable<Customer>
@@ -71,13 +71,13 @@ public class CustomerGenerator
     private static class CustomerGeneratorIterator
             extends AbstractIterator<Customer>
     {
-      private final RandomAlphaNumeric
-          addressRandom = new RandomAlphaNumeric(881155353, ADDRESS_AVERAGE_LENGTH);
+        private final RandomAlphaNumeric
+                addressRandom = new RandomAlphaNumeric(881155353, ADDRESS_AVERAGE_LENGTH);
         private final RandomBoundedInt nationKeyRandom;
         private final RandomPhoneNumber phoneRandom = new RandomPhoneNumber(1521138112);
-      private final RandomBoundedInt
-          accountBalanceRandom =
-          new RandomBoundedInt(298370230, ACCOUNT_BALANCE_MIN, ACCOUNT_BALANCE_MAX);
+        private final RandomBoundedInt
+                accountBalanceRandom =
+                new RandomBoundedInt(298370230, ACCOUNT_BALANCE_MIN, ACCOUNT_BALANCE_MAX);
         private final RandomString marketSegmentRandom;
         private final RandomText commentRandom;
 

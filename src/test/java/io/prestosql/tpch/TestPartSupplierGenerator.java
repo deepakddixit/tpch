@@ -19,6 +19,11 @@ import static io.prestosql.tpch.GeneratorAssertions.assertEntityLinesMD5;
 
 public class TestPartSupplierGenerator
 {
+    public static void assertPartialMD5(int scaleFactor, int step, int children, String expectedMD5)
+    {
+        assertEntityLinesMD5(new PartSupplierGenerator(scaleFactor, step, children), expectedMD5);
+    }
+
     @SuppressWarnings("SpellCheckingInspection")
     @Test
     public void testScaleFactor1()
@@ -105,10 +110,5 @@ public class TestPartSupplierGenerator
         assertPartialMD5(100000, 533333332, 800000000, "1a9a422dc091ae71f6fa8c2d98319e26");
         assertPartialMD5(100000, 799999998, 800000000, "eb5fabfa010e3490b2eb14e8f9d1f687");
         assertPartialMD5(100000, 800000000, 800000000, "5650aab8e50e803743488261b4062331");
-    }
-
-    public static void assertPartialMD5(int scaleFactor, int step, int children, String expectedMD5)
-    {
-        assertEntityLinesMD5(new PartSupplierGenerator(scaleFactor, step, children), expectedMD5);
     }
 }

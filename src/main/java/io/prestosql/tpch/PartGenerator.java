@@ -13,15 +13,15 @@
  */
 package io.prestosql.tpch;
 
+import com.google.common.collect.AbstractIterator;
+
+import java.util.Iterator;
+
 import static com.google.common.base.Preconditions.checkArgument;
 import static io.prestosql.tpch.GenerateUtils.calculateRowCount;
 import static io.prestosql.tpch.GenerateUtils.calculateStartIndex;
 import static java.util.Locale.ENGLISH;
 import static java.util.Objects.requireNonNull;
-
-import com.google.common.collect.AbstractIterator;
-
-import java.util.Iterator;
 
 public class PartGenerator
         implements Iterable<Part>
@@ -61,6 +61,17 @@ public class PartGenerator
 
         this.distributions = requireNonNull(distributions, "distributions is null");
         this.textPool = requireNonNull(textPool, "textPool is null");
+    }
+
+    static long calculatePartPrice(long p)
+    {
+        long price = 90000;
+
+        // limit contribution to $200
+        price += (p / 10) % 20001;
+        price += (p % 1000) * 100;
+
+        return (price);
     }
 
     @Override
@@ -151,16 +162,5 @@ public class PartGenerator
                     calculatePartPrice(partKey),
                     commentRandom.nextValue());
         }
-    }
-
-    static long calculatePartPrice(long p)
-    {
-        long price = 90000;
-
-        // limit contribution to $200
-        price += (p / 10) % 20001;
-        price += (p % 1000) * 100;
-
-        return (price);
     }
 }

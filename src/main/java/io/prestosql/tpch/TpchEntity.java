@@ -19,5 +19,5 @@ public interface TpchEntity
 
     String toLine();
 
-  Object[] values();
+    Object[] values();
 }

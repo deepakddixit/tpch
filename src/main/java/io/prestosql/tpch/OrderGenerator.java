@@ -13,6 +13,10 @@
  */
 package io.prestosql.tpch;
 
+import com.google.common.collect.AbstractIterator;
+
+import java.util.Iterator;
+
 import static com.google.common.base.Preconditions.checkArgument;
 import static io.prestosql.tpch.GenerateUtils.MIN_GENERATE_DATE;
 import static io.prestosql.tpch.GenerateUtils.TOTAL_DATE_RANGE;
@@ -29,10 +33,6 @@ import static io.prestosql.tpch.PartGenerator.calculatePartPrice;
 import static java.util.Locale.ENGLISH;
 import static java.util.Objects.requireNonNull;
 
-import com.google.common.collect.AbstractIterator;
-
-import java.util.Iterator;
-
 public class OrderGenerator
         implements Iterable<Order>
 {
@@ -40,14 +40,11 @@ public class OrderGenerator
 
     // portion with have no orders
     public static final int CUSTOMER_MORTALITY = 3;
-
+    static final int LINE_COUNT_MAX = 7;
     private static final int ORDER_DATE_MIN = MIN_GENERATE_DATE;
     private static final int ORDER_DATE_MAX = ORDER_DATE_MIN + (TOTAL_DATE_RANGE - ITEM_SHIP_DAYS - 1);
     private static final int CLERK_SCALE_BASE = 1000;
-
     private static final int LINE_COUNT_MIN = 1;
-    static final int LINE_COUNT_MAX = 7;
-
     private static final int COMMENT_AVERAGE_LENGTH = 49;
 
     private static final int ORDER_KEY_SPARSE_BITS = 2;
@@ -77,6 +74,29 @@ public class OrderGenerator
 
         this.distributions = requireNonNull(distributions, "distributions is null");
         this.textPool = requireNonNull(textPool, "textPool is null");
+    }
+
+    static RandomBoundedInt createLineCountRandom()
+    {
+        return new RandomBoundedInt(1434868289, LINE_COUNT_MIN, LINE_COUNT_MAX);
+    }
+
+    static RandomBoundedInt createOrderDateRandom()
+    {
+        return new RandomBoundedInt(1066728069, ORDER_DATE_MIN, ORDER_DATE_MAX);
+    }
+
+    static long makeOrderKey(long orderIndex)
+    {
+        long lowBits = orderIndex & ((1 << ORDER_KEY_SPARSE_KEEP) - 1);
+
+        long ok = orderIndex;
+        ok >>= ORDER_KEY_SPARSE_KEEP;
+        ok <<= ORDER_KEY_SPARSE_BITS;
+        ok <<= ORDER_KEY_SPARSE_KEEP;
+        ok += lowBits;
+
+        return ok;
     }
 
     @Override
@@ -230,28 +250,5 @@ public class OrderGenerator
                     0,
                     commentRandom.nextValue());
         }
-    }
-
-    static RandomBoundedInt createLineCountRandom()
-    {
-        return new RandomBoundedInt(1434868289, LINE_COUNT_MIN, LINE_COUNT_MAX);
-    }
-
-    static RandomBoundedInt createOrderDateRandom()
-    {
-        return new RandomBoundedInt(1066728069, ORDER_DATE_MIN, ORDER_DATE_MAX);
-    }
-
-    static long makeOrderKey(long orderIndex)
-    {
-        long lowBits = orderIndex & ((1 << ORDER_KEY_SPARSE_KEEP) - 1);
-
-        long ok = orderIndex;
-        ok >>= ORDER_KEY_SPARSE_KEEP;
-        ok <<= ORDER_KEY_SPARSE_BITS;
-        ok <<= ORDER_KEY_SPARSE_KEEP;
-        ok += lowBits;
-
-        return ok;
     }
 }

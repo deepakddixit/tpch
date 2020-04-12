@@ -19,9 +19,9 @@ public class RandomLong
 {
     private static final long MULTIPLIER = 6364136223846793005L;
     private static final long INCREMENT = 1;
-
+    private static final long MULTIPLIER_32 = 16807;
+    private static final long MODULUS_32 = 2147483647;
     private final int expectedUsagePerRow;
-
     private long seed;
     private int usage;
 
@@ -125,9 +125,6 @@ public class RandomLong
         }
         seed = seed * aPow + dSum * INCREMENT;
     }
-
-    private static final long MULTIPLIER_32 = 16807;
-    private static final long MODULUS_32 = 2147483647;
 
     private void advanceSeed32(long count)
     {

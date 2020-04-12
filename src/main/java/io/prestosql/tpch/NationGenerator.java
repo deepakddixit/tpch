@@ -13,11 +13,11 @@
  */
 package io.prestosql.tpch;
 
-import static java.util.Objects.requireNonNull;
-
 import com.google.common.collect.AbstractIterator;
 
 import java.util.Iterator;
+
+import static java.util.Objects.requireNonNull;
 
 public class NationGenerator
         implements Iterable<Nation>

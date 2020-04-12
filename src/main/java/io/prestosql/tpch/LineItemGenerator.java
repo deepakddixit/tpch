@@ -13,6 +13,10 @@
  */
 package io.prestosql.tpch;
 
+import com.google.common.collect.AbstractIterator;
+
+import java.util.Iterator;
+
 import static com.google.common.base.Preconditions.checkArgument;
 import static io.prestosql.tpch.GenerateUtils.calculateRowCount;
 import static io.prestosql.tpch.GenerateUtils.calculateStartIndex;
@@ -23,10 +27,6 @@ import static io.prestosql.tpch.OrderGenerator.createOrderDateRandom;
 import static io.prestosql.tpch.OrderGenerator.makeOrderKey;
 import static io.prestosql.tpch.PartSupplierGenerator.selectPartSupplier;
 import static java.util.Objects.requireNonNull;
-
-import com.google.common.collect.AbstractIterator;
-
-import java.util.Iterator;
 
 public class LineItemGenerator
         implements Iterable<LineItem>
@@ -76,6 +76,32 @@ public class LineItemGenerator
         this.textPool = requireNonNull(textPool, "textPool is null");
     }
 
+    static RandomBoundedInt createQuantityRandom()
+    {
+        return new RandomBoundedInt(209208115, QUANTITY_MIN, QUANTITY_MAX, LINE_COUNT_MAX);
+    }
+
+    static RandomBoundedInt createDiscountRandom()
+    {
+        return new RandomBoundedInt(554590007, DISCOUNT_MIN, DISCOUNT_MAX, LINE_COUNT_MAX);
+    }
+
+    static RandomBoundedInt createTaxRandom()
+    {
+        return new RandomBoundedInt(721958466, TAX_MIN, TAX_MAX, LINE_COUNT_MAX);
+    }
+
+    static RandomBoundedLong createPartKeyRandom(double scaleFactor)
+    {
+        return new RandomBoundedLong(1808217256, scaleFactor >= 30000, PART_KEY_MIN, (long) (
+                PartGenerator.SCALE_BASE * scaleFactor), LINE_COUNT_MAX);
+    }
+
+    static RandomBoundedInt createShipDateRandom()
+    {
+        return new RandomBoundedInt(1769349045, SHIP_DATE_MIN, SHIP_DATE_MAX, LINE_COUNT_MAX);
+    }
+
     @Override
     public Iterator<LineItem> iterator()
     {
@@ -99,16 +125,16 @@ public class LineItemGenerator
 
         private final RandomBoundedLong linePartKeyRandom;
 
-      private final RandomBoundedInt
-          supplierNumberRandom = new RandomBoundedInt(2095021727, 0, 3, LINE_COUNT_MAX);
+        private final RandomBoundedInt
+                supplierNumberRandom = new RandomBoundedInt(2095021727, 0, 3, LINE_COUNT_MAX);
 
         private final RandomBoundedInt shipDateRandom = createShipDateRandom();
-      private final RandomBoundedInt
-          commitDateRandom =
-          new RandomBoundedInt(904914315, COMMIT_DATE_MIN, COMMIT_DATE_MAX, LINE_COUNT_MAX);
-      private final RandomBoundedInt
-          receiptDateRandom =
-          new RandomBoundedInt(373135028, RECEIPT_DATE_MIN, RECEIPT_DATE_MAX, LINE_COUNT_MAX);
+        private final RandomBoundedInt
+                commitDateRandom =
+                new RandomBoundedInt(904914315, COMMIT_DATE_MIN, COMMIT_DATE_MAX, LINE_COUNT_MAX);
+        private final RandomBoundedInt
+                receiptDateRandom =
+                new RandomBoundedInt(373135028, RECEIPT_DATE_MIN, RECEIPT_DATE_MAX, LINE_COUNT_MAX);
 
         private final RandomString returnedFlagRandom;
         private final RandomString shipInstructionsRandom;
@@ -270,31 +296,5 @@ public class LineItemGenerator
                     shipMode,
                     comment);
         }
-    }
-
-    static RandomBoundedInt createQuantityRandom()
-    {
-        return new RandomBoundedInt(209208115, QUANTITY_MIN, QUANTITY_MAX, LINE_COUNT_MAX);
-    }
-
-    static RandomBoundedInt createDiscountRandom()
-    {
-        return new RandomBoundedInt(554590007, DISCOUNT_MIN, DISCOUNT_MAX, LINE_COUNT_MAX);
-    }
-
-    static RandomBoundedInt createTaxRandom()
-    {
-        return new RandomBoundedInt(721958466, TAX_MIN, TAX_MAX, LINE_COUNT_MAX);
-    }
-
-    static RandomBoundedLong createPartKeyRandom(double scaleFactor)
-    {
-      return new RandomBoundedLong(1808217256, scaleFactor >= 30000, PART_KEY_MIN, (long) (
-          PartGenerator.SCALE_BASE * scaleFactor), LINE_COUNT_MAX);
-    }
-
-    static RandomBoundedInt createShipDateRandom()
-    {
-        return new RandomBoundedInt(1769349045, SHIP_DATE_MIN, SHIP_DATE_MAX, LINE_COUNT_MAX);
     }
 }

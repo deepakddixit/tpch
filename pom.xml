@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://maven.apache.org/POM/4.0.0" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <parent>
+    <!--<parent>
         <groupId>io.airlift</groupId>
         <artifactId>airbase</artifactId>
         <version>95</version>
-    </parent>
+    </parent>-->
 
     <groupId>io.prestosql.tpch</groupId>
     <artifactId>tpch</artifactId>
@@ -34,18 +34,23 @@
 
     <properties>
         <air.test.jvmsize>2g</air.test.jvmsize>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
     </properties>
 
     <dependencies>
         <dependency>
             <groupId>com.google.guava</groupId>
             <artifactId>guava</artifactId>
+            <version>23.0</version>
         </dependency>
 
         <!-- for testing -->
         <dependency>
             <groupId>org.testng</groupId>
             <artifactId>testng</artifactId>
+            <version>LATEST</version>
             <scope>test</scope>
         </dependency>
     </dependencies>
@@ -53,14 +58,23 @@
     <build>
         <pluginManagement>
             <plugins>
-                <plugin>
+                <!--<plugin>
                     <groupId>com.github.spotbugs</groupId>
                     <artifactId>spotbugs-maven-plugin</artifactId>
                     <configuration>
                         <excludeFilterFile>${air.main.basedir}/src/spotbugs/exclude.xml</excludeFilterFile>
                     </configuration>
-                </plugin>
+                </plugin>-->
             </plugins>
         </pluginManagement>
     </build>
+
+    <distributionManagement>
+        <repository>
+            <id>github</id>
+            <name>Deepak Dixit</name>
+            <url>https://maven.pkg.github.com/deepakddixit</url>
+        </repository>
+    </distributionManagement>
+
 </project>

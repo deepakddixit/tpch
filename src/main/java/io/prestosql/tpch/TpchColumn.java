@@ -15,6 +15,8 @@ package io.prestosql.tpch;
 
 public interface TpchColumn<E extends TpchEntity>
 {
+    String TPCH_COLUMN_VALID_PREFIX_REGEX = "(?i)^(p|ps|l|o|s|c|n|r)_";
+
     String getColumnName();
 
     TpchColumnType getType();
@@ -28,8 +30,6 @@ public interface TpchColumn<E extends TpchEntity>
     String getString(E entity);
 
     int getDate(E entity);
-
-    String TPCH_COLUMN_VALID_PREFIX_REGEX = "(?i)^(p|ps|l|o|s|c|n|r)_";
 
     default String getSimplifiedColumnName()
     {

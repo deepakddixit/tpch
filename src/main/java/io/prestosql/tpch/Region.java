@@ -17,43 +17,51 @@ import static java.util.Locale.ENGLISH;
 import static java.util.Objects.requireNonNull;
 
 public class Region
-    implements TpchEntity {
-  private final long rowNumber;
-  private final long regionKey;
-  private final String name;
-  private final String comment;
+        implements TpchEntity
+{
+    private final long rowNumber;
+    private final long regionKey;
+    private final String name;
+    private final String comment;
 
-  public Region(long rowNumber, long regionKey, String name, String comment) {
-    this.rowNumber = rowNumber;
-    this.regionKey = regionKey;
-    this.name = requireNonNull(name, "name is null");
-    this.comment = requireNonNull(comment, "comment is null");
-  }
+    public Region(long rowNumber, long regionKey, String name, String comment)
+    {
+        this.rowNumber = rowNumber;
+        this.regionKey = regionKey;
+        this.name = requireNonNull(name, "name is null");
+        this.comment = requireNonNull(comment, "comment is null");
+    }
 
-  @Override
-  public long getRowNumber() {
-    return rowNumber;
-  }
+    @Override
+    public long getRowNumber()
+    {
+        return rowNumber;
+    }
 
-  public long getRegionKey() {
-    return regionKey;
-  }
+    public long getRegionKey()
+    {
+        return regionKey;
+    }
 
-  public String getName() {
-    return name;
-  }
+    public String getName()
+    {
+        return name;
+    }
 
-  public String getComment() {
-    return comment;
-  }
+    public String getComment()
+    {
+        return comment;
+    }
 
-  @Override
-  public String toLine() {
-    return String.format(ENGLISH, "%d|%s|%s|", regionKey, name, comment);
-  }
+    @Override
+    public String toLine()
+    {
+        return String.format(ENGLISH, "%d|%s|%s|", regionKey, name, comment);
+    }
 
-  @Override
-  public Object[] values() {
-    return new Object[]{getRegionKey(), getName(), getComment()};
-  }
+    @Override
+    public Object[] values()
+    {
+        return new Object[] {getRegionKey(), getName(), getComment()};
+    }
 }

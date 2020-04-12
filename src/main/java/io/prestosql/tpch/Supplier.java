@@ -19,84 +19,96 @@ import static java.util.Locale.ENGLISH;
 import static java.util.Objects.requireNonNull;
 
 public class Supplier
-    implements TpchEntity {
-  private final long rowNumber;
-  private final long supplierKey;
-  private final String name;
-  private final String address;
-  private final long nationKey;
-  private final String phone;
-  private final long accountBalance;
-  private final String comment;
+        implements TpchEntity
+{
+    private final long rowNumber;
+    private final long supplierKey;
+    private final String name;
+    private final String address;
+    private final long nationKey;
+    private final String phone;
+    private final long accountBalance;
+    private final String comment;
 
-  public Supplier(long rowNumber, long supplierKey, String name, String address, long nationKey,
-                  String phone, long accountBalance, String comment) {
-    this.rowNumber = rowNumber;
-    this.supplierKey = supplierKey;
-    this.name = requireNonNull(name, "name is null");
-    this.address = requireNonNull(address, "address is null");
-    this.nationKey = nationKey;
-    this.phone = requireNonNull(phone, "phone is null");
-    this.accountBalance = accountBalance;
-    this.comment = requireNonNull(comment, "comment is null");
-  }
+    public Supplier(long rowNumber, long supplierKey, String name, String address, long nationKey,
+            String phone, long accountBalance, String comment)
+    {
+        this.rowNumber = rowNumber;
+        this.supplierKey = supplierKey;
+        this.name = requireNonNull(name, "name is null");
+        this.address = requireNonNull(address, "address is null");
+        this.nationKey = nationKey;
+        this.phone = requireNonNull(phone, "phone is null");
+        this.accountBalance = accountBalance;
+        this.comment = requireNonNull(comment, "comment is null");
+    }
 
-  @Override
-  public long getRowNumber() {
-    return rowNumber;
-  }
+    @Override
+    public long getRowNumber()
+    {
+        return rowNumber;
+    }
 
-  public long getSupplierKey() {
-    return supplierKey;
-  }
+    public long getSupplierKey()
+    {
+        return supplierKey;
+    }
 
-  public String getName() {
-    return name;
-  }
+    public String getName()
+    {
+        return name;
+    }
 
-  public String getAddress() {
-    return address;
-  }
+    public String getAddress()
+    {
+        return address;
+    }
 
-  public long getNationKey() {
-    return nationKey;
-  }
+    public long getNationKey()
+    {
+        return nationKey;
+    }
 
-  public String getPhone() {
-    return phone;
-  }
+    public String getPhone()
+    {
+        return phone;
+    }
 
-  public double getAccountBalance() {
-    return accountBalance / 100.0;
-  }
+    public double getAccountBalance()
+    {
+        return accountBalance / 100.0;
+    }
 
-  public long getAccountBalanceInCents() {
-    return accountBalance;
-  }
+    public long getAccountBalanceInCents()
+    {
+        return accountBalance;
+    }
 
-  public String getComment() {
-    return comment;
-  }
+    public String getComment()
+    {
+        return comment;
+    }
 
-  @Override
-  public String toLine() {
-    return String.format(ENGLISH,
-        "%d|%s|%s|%d|%s|%s|%s|",
-        supplierKey,
-        name,
-        address,
-        nationKey,
-        phone,
-        formatMoney(accountBalance),
-        comment);
-  }
+    @Override
+    public String toLine()
+    {
+        return String.format(ENGLISH,
+                "%d|%s|%s|%d|%s|%s|%s|",
+                supplierKey,
+                name,
+                address,
+                nationKey,
+                phone,
+                formatMoney(accountBalance),
+                comment);
+    }
 
-  @Override
-  public Object[] values() {
-    return new Object[]{
-        getSupplierKey(), getName(), getAddress(), getName(), getPhone(),
-        formatMoneyAsDouble(getAccountBalanceInCents()), getComment()
-
-    };
-  }
+    @Override
+    public Object[] values()
+    {
+        return new Object[] {
+                getSupplierKey(), getName(), getAddress(), getName(), getPhone(),
+                formatMoneyAsDouble(getAccountBalanceInCents()), getComment()
+        };
+    }
 }

@@ -13,14 +13,14 @@
  */
 package io.prestosql.tpch;
 
+import com.google.common.collect.AbstractIterator;
+
+import java.util.Iterator;
+
 import static com.google.common.base.Preconditions.checkArgument;
 import static io.prestosql.tpch.GenerateUtils.calculateRowCount;
 import static io.prestosql.tpch.GenerateUtils.calculateStartIndex;
 import static java.util.Objects.requireNonNull;
-
-import com.google.common.collect.AbstractIterator;
-
-import java.util.Iterator;
 
 public class PartSupplierGenerator
         implements Iterable<PartSupplier>
@@ -57,6 +57,12 @@ public class PartSupplierGenerator
         this.partCount = partCount;
 
         this.textPool = requireNonNull(textPool, "textPool is null");
+    }
+
+    static long selectPartSupplier(long partKey, long supplierNumber, double scaleFactor)
+    {
+        long supplierCount = (long) (SupplierGenerator.SCALE_BASE * scaleFactor);
+        return ((partKey + (supplierNumber * ((supplierCount / SUPPLIERS_PER_PART) + ((partKey - 1) / supplierCount)))) % supplierCount) + 1;
     }
 
     @Override
@@ -130,11 +136,5 @@ public class PartSupplierGenerator
                     supplyCostRandom.nextValue(),
                     commentRandom.nextValue());
         }
-    }
-
-    static long selectPartSupplier(long partKey, long supplierNumber, double scaleFactor)
-    {
-        long supplierCount = (long) (SupplierGenerator.SCALE_BASE * scaleFactor);
-        return ((partKey + (supplierNumber * ((supplierCount / SUPPLIERS_PER_PART) + ((partKey - 1) / supplierCount)))) % supplierCount) + 1;
     }
 }

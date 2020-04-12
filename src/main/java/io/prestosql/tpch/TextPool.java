@@ -13,14 +13,14 @@
  */
 package io.prestosql.tpch;
 
+import java.util.function.Supplier;
+
 import static com.google.common.base.Preconditions.checkState;
 import static com.google.common.base.Suppliers.memoize;
 import static io.prestosql.tpch.Distributions.getDefaultDistributions;
 import static java.lang.String.format;
 import static java.nio.charset.StandardCharsets.US_ASCII;
 import static java.util.Objects.requireNonNull;
-
-import java.util.function.Supplier;
 
 public class TextPool
 {
@@ -29,12 +29,6 @@ public class TextPool
 
     private static final Supplier<TextPool> DEFAULT_TEXT_POOL = memoize(() ->
             new TextPool(DEFAULT_TEXT_POOL_SIZE, getDefaultDistributions()));
-
-    public static TextPool getDefaultTestPool()
-    {
-        return DEFAULT_TEXT_POOL.get();
-    }
-
     private final byte[] textPool;
     private final int textPoolSize;
 
@@ -61,17 +55,9 @@ public class TextPool
         textPoolSize = output.getLength();
     }
 
-    public int size()
+    public static TextPool getDefaultTestPool()
     {
-        return textPoolSize;
-    }
-
-    public String getText(int begin, int end)
-    {
-        if (end > textPoolSize) {
-            throw new IndexOutOfBoundsException(format("Index %d is beyond end of text pool (size = %d)", end, textPoolSize));
-        }
-        return new String(textPool, begin, end - begin, US_ASCII);
+        return DEFAULT_TEXT_POOL.get();
     }
 
     private static void generateSentence(Distributions distributions, ByteArrayBuilder builder, RandomInt random)
@@ -175,6 +161,19 @@ public class TextPool
         }
     }
 
+    public int size()
+    {
+        return textPoolSize;
+    }
+
+    public String getText(int begin, int end)
+    {
+        if (end > textPoolSize) {
+            throw new IndexOutOfBoundsException(format("Index %d is beyond end of text pool (size = %d)", end, textPoolSize));
+        }
+        return new String(textPool, begin, end - begin, US_ASCII);
+    }
+
     public interface TextGenerationProgressMonitor
     {
         void updateProgress(double progress);
@@ -182,8 +181,8 @@ public class TextPool
 
     private static class ByteArrayBuilder
     {
-        private int length;
         private final byte[] bytes;
+        private int length;
 
         public ByteArrayBuilder(int size)
         {

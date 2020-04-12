@@ -18,15 +18,6 @@ import java.util.Optional;
 
 public class TpchColumnType
 {
-    public enum Base
-    {
-        INTEGER,
-        IDENTIFIER,
-        DATE,
-        DOUBLE,
-        VARCHAR
-    }
-
     private final Base base;
     private final Optional<Long> precision;
     private final Optional<Long> scale;
@@ -87,5 +78,14 @@ public class TpchColumnType
     public int hashCode()
     {
         return Objects.hash(base, precision, scale);
+    }
+
+    public enum Base
+    {
+        INTEGER,
+        IDENTIFIER,
+        DATE,
+        DOUBLE,
+        VARCHAR
     }
 }
