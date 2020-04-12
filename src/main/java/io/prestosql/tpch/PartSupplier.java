@@ -14,74 +14,74 @@
 package io.prestosql.tpch;
 
 import static io.prestosql.tpch.GenerateUtils.formatMoney;
+import static io.prestosql.tpch.GenerateUtils.formatMoneyAsDouble;
 import static java.util.Locale.ENGLISH;
 import static java.util.Objects.requireNonNull;
 
 public class PartSupplier
-        implements TpchEntity
-{
-    private final long rowNumber;
-    private final long partKey;
-    private final long supplierKey;
-    private final int availableQuantity;
-    private final long supplyCost;
-    private final String comment;
+    implements TpchEntity {
+  private final long rowNumber;
+  private final long partKey;
+  private final long supplierKey;
+  private final int availableQuantity;
+  private final long supplyCost;
+  private final String comment;
 
-    public PartSupplier(long rowNumber, long partKey, long supplierKey, int availableQuantity, long supplyCost, String comment)
-    {
-        this.rowNumber = rowNumber;
-        this.partKey = partKey;
-        this.supplierKey = supplierKey;
-        this.availableQuantity = availableQuantity;
-        this.supplyCost = supplyCost;
-        this.comment = requireNonNull(comment, "comment is null");
-    }
+  public PartSupplier(long rowNumber, long partKey, long supplierKey, int availableQuantity,
+                      long supplyCost, String comment) {
+    this.rowNumber = rowNumber;
+    this.partKey = partKey;
+    this.supplierKey = supplierKey;
+    this.availableQuantity = availableQuantity;
+    this.supplyCost = supplyCost;
+    this.comment = requireNonNull(comment, "comment is null");
+  }
 
-    @Override
-    public long getRowNumber()
-    {
-        return rowNumber;
-    }
+  @Override
+  public long getRowNumber() {
+    return rowNumber;
+  }
 
-    public long getPartKey()
-    {
-        return partKey;
-    }
+  public long getPartKey() {
+    return partKey;
+  }
 
-    public long getSupplierKey()
-    {
-        return supplierKey;
-    }
+  public long getSupplierKey() {
+    return supplierKey;
+  }
 
-    public int getAvailableQuantity()
-    {
-        return availableQuantity;
-    }
+  public int getAvailableQuantity() {
+    return availableQuantity;
+  }
 
-    public double getSupplyCost()
-    {
-        return supplyCost / 100.0;
-    }
+  public double getSupplyCost() {
+    return supplyCost / 100.0;
+  }
 
-    public long getSupplyCostInCents()
-    {
-        return supplyCost;
-    }
+  public long getSupplyCostInCents() {
+    return supplyCost;
+  }
 
-    public String getComment()
-    {
-        return comment;
-    }
+  public String getComment() {
+    return comment;
+  }
 
-    @Override
-    public String toLine()
-    {
-        return String.format(ENGLISH,
-                "%d|%d|%d|%s|%s|",
-                partKey,
-                supplierKey,
-                availableQuantity,
-                formatMoney(supplyCost),
-                comment);
-    }
+  @Override
+  public String toLine() {
+    return String.format(ENGLISH,
+        "%d|%d|%d|%s|%s|",
+        partKey,
+        supplierKey,
+        availableQuantity,
+        formatMoney(supplyCost),
+        comment);
+  }
+
+  @Override
+  public Object[] values() {
+    return new Object[]{
+        getPartKey(), getSupplierKey(), getAvailableQuantity(),
+        formatMoneyAsDouble(getSupplyCostInCents()), getComment()
+    };
+  }
 }

@@ -13,6 +13,12 @@
  */
 package io.prestosql.tpch;
 
+import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.common.base.Preconditions.checkState;
+import static com.google.common.base.Suppliers.memoize;
+import static io.prestosql.tpch.DistributionLoader.loadDistribution;
+import static java.nio.charset.StandardCharsets.UTF_8;
+
 import com.google.common.io.Resources;
 
 import java.io.IOException;
@@ -20,12 +26,6 @@ import java.io.UncheckedIOException;
 import java.net.URL;
 import java.util.Map;
 import java.util.function.Supplier;
-
-import static com.google.common.base.Preconditions.checkArgument;
-import static com.google.common.base.Preconditions.checkState;
-import static com.google.common.base.Suppliers.memoize;
-import static io.prestosql.tpch.DistributionLoader.loadDistribution;
-import static java.nio.charset.StandardCharsets.UTF_8;
 
 public class Distributions
 {

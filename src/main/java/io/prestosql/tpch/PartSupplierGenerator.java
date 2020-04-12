@@ -13,14 +13,14 @@
  */
 package io.prestosql.tpch;
 
-import com.google.common.collect.AbstractIterator;
-
-import java.util.Iterator;
-
 import static com.google.common.base.Preconditions.checkArgument;
 import static io.prestosql.tpch.GenerateUtils.calculateRowCount;
 import static io.prestosql.tpch.GenerateUtils.calculateStartIndex;
 import static java.util.Objects.requireNonNull;
+
+import com.google.common.collect.AbstractIterator;
+
+import java.util.Iterator;
 
 public class PartSupplierGenerator
         implements Iterable<PartSupplier>

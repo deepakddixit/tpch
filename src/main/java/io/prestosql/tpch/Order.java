@@ -14,116 +14,111 @@
 package io.prestosql.tpch;
 
 import static io.prestosql.tpch.GenerateUtils.formatDate;
+import static io.prestosql.tpch.GenerateUtils.formatDateAsInt;
 import static io.prestosql.tpch.GenerateUtils.formatMoney;
+import static io.prestosql.tpch.GenerateUtils.formatMoneyAsDouble;
 import static java.util.Locale.ENGLISH;
 import static java.util.Objects.requireNonNull;
 
 public class Order
-        implements TpchEntity
-{
-    private final long rowNumber;
-    private final long orderKey;
-    private final long customerKey;
-    private final char orderStatus;
-    private final long totalPrice;
-    private final int orderDate;
-    private final String orderPriority;
-    private final String clerk;
-    private final int shipPriority;
-    private final String comment;
+    implements TpchEntity {
+  private final long rowNumber;
+  private final long orderKey;
+  private final long customerKey;
+  private final char orderStatus;
+  private final long totalPrice;
+  private final int orderDate;
+  private final String orderPriority;
+  private final String clerk;
+  private final int shipPriority;
+  private final String comment;
 
-    public Order(long rowNumber,
-            long orderKey,
-            long customerKey,
-            char orderStatus,
-            long totalPrice,
-            int orderDate,
-            String orderPriority,
-            String clerk,
-            int shipPriority,
-            String comment)
-    {
-        this.rowNumber = rowNumber;
-        this.orderKey = orderKey;
-        this.customerKey = customerKey;
-        this.orderStatus = orderStatus;
-        this.totalPrice = totalPrice;
-        this.orderDate = orderDate;
-        this.orderPriority = requireNonNull(orderPriority, "orderPriority is null");
-        this.clerk = requireNonNull(clerk, "clerk is null");
-        this.shipPriority = shipPriority;
-        this.comment = requireNonNull(comment, "comment is null");
-    }
+  public Order(long rowNumber,
+               long orderKey,
+               long customerKey,
+               char orderStatus,
+               long totalPrice,
+               int orderDate,
+               String orderPriority,
+               String clerk,
+               int shipPriority,
+               String comment) {
+    this.rowNumber = rowNumber;
+    this.orderKey = orderKey;
+    this.customerKey = customerKey;
+    this.orderStatus = orderStatus;
+    this.totalPrice = totalPrice;
+    this.orderDate = orderDate;
+    this.orderPriority = requireNonNull(orderPriority, "orderPriority is null");
+    this.clerk = requireNonNull(clerk, "clerk is null");
+    this.shipPriority = shipPriority;
+    this.comment = requireNonNull(comment, "comment is null");
+  }
 
-    @Override
-    public long getRowNumber()
-    {
-        return rowNumber;
-    }
+  @Override
+  public long getRowNumber() {
+    return rowNumber;
+  }
 
-    public long getOrderKey()
-    {
-        return orderKey;
-    }
+  public long getOrderKey() {
+    return orderKey;
+  }
 
-    public long getCustomerKey()
-    {
-        return customerKey;
-    }
+  public long getCustomerKey() {
+    return customerKey;
+  }
 
-    public char getOrderStatus()
-    {
-        return orderStatus;
-    }
+  public char getOrderStatus() {
+    return orderStatus;
+  }
 
-    public double getTotalPrice()
-    {
-        return totalPrice / 100.0;
-    }
+  public double getTotalPrice() {
+    return totalPrice / 100.0;
+  }
 
-    public long getTotalPriceInCents()
-    {
-        return totalPrice;
-    }
+  public long getTotalPriceInCents() {
+    return totalPrice;
+  }
 
-    public int getOrderDate()
-    {
-        return orderDate;
-    }
+  public int getOrderDate() {
+    return orderDate;
+  }
 
-    public String getOrderPriority()
-    {
-        return orderPriority;
-    }
+  public String getOrderPriority() {
+    return orderPriority;
+  }
 
-    public String getClerk()
-    {
-        return clerk;
-    }
+  public String getClerk() {
+    return clerk;
+  }
 
-    public int getShipPriority()
-    {
-        return shipPriority;
-    }
+  public int getShipPriority() {
+    return shipPriority;
+  }
 
-    public String getComment()
-    {
-        return comment;
-    }
+  public String getComment() {
+    return comment;
+  }
 
-    @Override
-    public String toLine()
-    {
-        return String.format(ENGLISH,
-                "%d|%d|%s|%s|%s|%s|%s|%d|%s|",
-                orderKey,
-                customerKey,
-                orderStatus,
-                formatMoney(totalPrice),
-                formatDate(orderDate),
-                orderPriority,
-                clerk,
-                shipPriority,
-                comment);
-    }
+  @Override
+  public String toLine() {
+    return String.format(ENGLISH,
+        "%d|%d|%s|%s|%s|%s|%s|%d|%s|",
+        orderKey,
+        customerKey,
+        orderStatus,
+        formatMoney(totalPrice),
+        formatDate(orderDate),
+        orderPriority,
+        clerk,
+        shipPriority,
+        comment);
+  }
+
+  @Override
+  public Object[] values() {
+    return new Object[]{getOrderKey(), getCustomerKey(), getOrderStatus(),
+        formatMoneyAsDouble(getTotalPriceInCents()), formatDateAsInt(getOrderDate()),
+        getOrderPriority(), getClerk(), getShipPriority(), getComment()};
+  }
 }

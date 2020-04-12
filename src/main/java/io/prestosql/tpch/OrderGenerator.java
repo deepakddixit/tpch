@@ -13,10 +13,6 @@
  */
 package io.prestosql.tpch;
 
-import com.google.common.collect.AbstractIterator;
-
-import java.util.Iterator;
-
 import static com.google.common.base.Preconditions.checkArgument;
 import static io.prestosql.tpch.GenerateUtils.MIN_GENERATE_DATE;
 import static io.prestosql.tpch.GenerateUtils.TOTAL_DATE_RANGE;
@@ -32,6 +28,10 @@ import static io.prestosql.tpch.LineItemGenerator.createTaxRandom;
 import static io.prestosql.tpch.PartGenerator.calculatePartPrice;
 import static java.util.Locale.ENGLISH;
 import static java.util.Objects.requireNonNull;
+
+import com.google.common.collect.AbstractIterator;
+
+import java.util.Iterator;
 
 public class OrderGenerator
         implements Iterable<Order>

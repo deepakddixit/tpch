@@ -14,115 +14,109 @@
 package io.prestosql.tpch;
 
 import static io.prestosql.tpch.GenerateUtils.formatMoney;
+import static io.prestosql.tpch.GenerateUtils.formatMoneyAsDouble;
 import static java.util.Locale.ENGLISH;
 import static java.util.Objects.requireNonNull;
 
 public class Part
-        implements TpchEntity
-{
-    private final long rowNumber;
-    private final long partKey;
-    private final String name;
-    private final String manufacturer;
-    private final String brand;
-    private final String type;
-    private final int size;
-    private final String container;
-    private final long retailPrice;
-    private final String comment;
+    implements TpchEntity {
+  private final long rowNumber;
+  private final long partKey;
+  private final String name;
+  private final String manufacturer;
+  private final String brand;
+  private final String type;
+  private final int size;
+  private final String container;
+  private final long retailPrice;
+  private final String comment;
 
-    public Part(long rowNumber,
-            long partKey,
-            String name,
-            String manufacturer,
-            String brand,
-            String type,
-            int size,
-            String container,
-            long retailPrice,
-            String comment)
-    {
-        this.rowNumber = rowNumber;
-        this.partKey = partKey;
-        this.name = requireNonNull(name, "name is null");
-        this.manufacturer = requireNonNull(manufacturer, "manufacturer is null");
-        this.brand = requireNonNull(brand, "brand is null");
-        this.type = requireNonNull(type, "type is null");
-        this.size = size;
-        this.container = requireNonNull(container, "container is null");
-        this.retailPrice = retailPrice;
-        this.comment = requireNonNull(comment, "comment is null");
-    }
+  public Part(long rowNumber,
+              long partKey,
+              String name,
+              String manufacturer,
+              String brand,
+              String type,
+              int size,
+              String container,
+              long retailPrice,
+              String comment) {
+    this.rowNumber = rowNumber;
+    this.partKey = partKey;
+    this.name = requireNonNull(name, "name is null");
+    this.manufacturer = requireNonNull(manufacturer, "manufacturer is null");
+    this.brand = requireNonNull(brand, "brand is null");
+    this.type = requireNonNull(type, "type is null");
+    this.size = size;
+    this.container = requireNonNull(container, "container is null");
+    this.retailPrice = retailPrice;
+    this.comment = requireNonNull(comment, "comment is null");
+  }
 
-    @Override
-    public long getRowNumber()
-    {
-        return rowNumber;
-    }
+  @Override
+  public long getRowNumber() {
+    return rowNumber;
+  }
 
-    public long getPartKey()
-    {
-        return partKey;
-    }
+  public long getPartKey() {
+    return partKey;
+  }
 
-    public String getName()
-    {
-        return name;
-    }
+  public String getName() {
+    return name;
+  }
 
-    public String getManufacturer()
-    {
-        return manufacturer;
-    }
+  public String getManufacturer() {
+    return manufacturer;
+  }
 
-    public String getBrand()
-    {
-        return brand;
-    }
+  public String getBrand() {
+    return brand;
+  }
 
-    public String getType()
-    {
-        return type;
-    }
+  public String getType() {
+    return type;
+  }
 
-    public int getSize()
-    {
-        return size;
-    }
+  public int getSize() {
+    return size;
+  }
 
-    public String getContainer()
-    {
-        return container;
-    }
+  public String getContainer() {
+    return container;
+  }
 
-    public double getRetailPrice()
-    {
-        return retailPrice / 100.0;
-    }
+  public double getRetailPrice() {
+    return retailPrice / 100.0;
+  }
 
-    public long getRetailPriceInCents()
-    {
-        return retailPrice;
-    }
+  public long getRetailPriceInCents() {
+    return retailPrice;
+  }
 
-    public String getComment()
-    {
-        return comment;
-    }
+  public String getComment() {
+    return comment;
+  }
 
-    @Override
-    public String toLine()
-    {
-        return String.format(ENGLISH,
-                "%d|%s|%s|%s|%s|%d|%s|%s|%s|",
-                partKey,
-                name,
-                manufacturer,
-                brand,
-                type,
-                size,
-                container,
-                formatMoney(retailPrice),
-                comment);
-    }
+  @Override
+  public String toLine() {
+    return String.format(ENGLISH,
+        "%d|%s|%s|%s|%s|%d|%s|%s|%s|",
+        partKey,
+        name,
+        manufacturer,
+        brand,
+        type,
+        size,
+        container,
+        formatMoney(retailPrice),
+        comment);
+  }
+
+  @Override
+  public Object[] values() {
+    return new Object[]{getPartKey(), getName(), getManufacturer(), getBrand(), getType(),
+        getSize(), getContainer(),
+        formatMoneyAsDouble(getRetailPriceInCents()), getComment()};
+  }
 }

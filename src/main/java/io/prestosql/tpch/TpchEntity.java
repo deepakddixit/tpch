@@ -18,4 +18,6 @@ public interface TpchEntity
     long getRowNumber();
 
     String toLine();
+
+  Object[] values();
 }

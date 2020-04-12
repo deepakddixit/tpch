@@ -13,14 +13,14 @@
  */
 package io.prestosql.tpch;
 
-import java.util.function.Supplier;
-
 import static com.google.common.base.Preconditions.checkState;
 import static com.google.common.base.Suppliers.memoize;
 import static io.prestosql.tpch.Distributions.getDefaultDistributions;
 import static java.lang.String.format;
 import static java.nio.charset.StandardCharsets.US_ASCII;
 import static java.util.Objects.requireNonNull;
+
+import java.util.function.Supplier;
 
 public class TextPool
 {

@@ -65,4 +65,9 @@ public class Nation
     {
         return String.format(ENGLISH, "%d|%s|%d|%s|", nationKey, name, regionKey, comment);
     }
+
+  @Override
+  public Object[] values() {
+    return new Object[]{getNationKey(), getName(), getRegionKey(), getComment()};
+  }
 }

@@ -13,12 +13,12 @@
  */
 package io.prestosql.tpch;
 
+import static com.google.common.base.CharMatcher.whitespace;
+import static java.util.Objects.requireNonNull;
+
 import com.google.common.base.Splitter;
 
 import java.util.List;
-
-import static com.google.common.base.CharMatcher.whitespace;
-import static java.util.Objects.requireNonNull;
 
 public class TextPoolGenerator
 {
