@@ -107,7 +107,7 @@ public class Supplier
     public Object[] values()
     {
         return new Object[] {
-                getSupplierKey(), getName(), getAddress(), getName(), getPhone(),
+                getSupplierKey(), getName(), getAddress(), getNationKey(), getPhone(),
                 formatMoneyAsDouble(getAccountBalanceInCents()), getComment()
         };
     }

@@ -16,6 +16,7 @@ package io.prestosql.tpch;
 import com.google.common.collect.ImmutableList;
 
 import java.math.BigDecimal;
+import java.sql.Date;
 import java.util.List;
 
 import static java.util.Locale.ENGLISH;
@@ -92,6 +93,11 @@ public final class GenerateUtils
     {
         return Integer.parseInt(
                 DATE_STRING_INDEX.get(epochDate - (MIN_GENERATE_DATE - GENERATED_DATE_EPOCH_OFFSET)));
+    }
+
+    public static Date formatDateAsDate(int epochDate)
+    {
+        return new Date(epochDate);
     }
 
     private static List<String> makeDateStringIndex()

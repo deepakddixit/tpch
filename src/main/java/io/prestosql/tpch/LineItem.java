@@ -14,7 +14,7 @@
 package io.prestosql.tpch;
 
 import static io.prestosql.tpch.GenerateUtils.formatDate;
-import static io.prestosql.tpch.GenerateUtils.formatDateAsInt;
+import static io.prestosql.tpch.GenerateUtils.formatDateAsDate;
 import static io.prestosql.tpch.GenerateUtils.formatMoney;
 import static io.prestosql.tpch.GenerateUtils.formatMoneyAsDouble;
 import static java.util.Locale.ENGLISH;
@@ -206,13 +206,13 @@ public class LineItem
     public Object[] values()
     {
         return new Object[] {getOrderKey(), getPartKey(), getSupplierKey(), getLineNumber(),
-                getQuantity(),
+                new Double(getQuantity()),
                 formatMoneyAsDouble(getExtendedPriceInCents()),
                 formatMoneyAsDouble(getDiscountPercent()),
                 formatMoneyAsDouble(getTaxPercent()), getReturnFlag(), getStatus(),
-                formatDateAsInt(getShipDate()),
-                formatDateAsInt(getCommitDate()),
-                formatDateAsInt(getReceiptDate()), getShipInstructions(), getShipMode(), getComment()
+                formatDateAsDate(getShipDate()),
+                formatDateAsDate(getCommitDate()),
+                formatDateAsDate(getReceiptDate()), getShipInstructions(), getShipMode(), getComment()
         };
     }
 }

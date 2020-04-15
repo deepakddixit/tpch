@@ -14,7 +14,7 @@
 package io.prestosql.tpch;
 
 import static io.prestosql.tpch.GenerateUtils.formatDate;
-import static io.prestosql.tpch.GenerateUtils.formatDateAsInt;
+import static io.prestosql.tpch.GenerateUtils.formatDateAsDate;
 import static io.prestosql.tpch.GenerateUtils.formatMoney;
 import static io.prestosql.tpch.GenerateUtils.formatMoneyAsDouble;
 import static java.util.Locale.ENGLISH;
@@ -133,7 +133,7 @@ public class Order
     public Object[] values()
     {
         return new Object[] {getOrderKey(), getCustomerKey(), getOrderStatus(),
-                formatMoneyAsDouble(getTotalPriceInCents()), formatDateAsInt(getOrderDate()),
+                formatMoneyAsDouble(getTotalPriceInCents()), formatDateAsDate(getOrderDate()),
                 getOrderPriority(), getClerk(), getShipPriority(), getComment()};
     }
 }
